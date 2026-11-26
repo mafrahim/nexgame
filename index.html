@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motion Playground! - Kids Active Motion Games</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=12">
+</head>
+<body>
+  <div id="app-container">
+    <!-- Camera Overlay (Mirror preview for kid) -->
+    <div id="camera-container" class="glass-panel">
+      <div class="camera-title">🎥 Your Camera</div>
+      <div class="video-wrapper">
+        <video id="webcam" autoplay playsinline></video>
+        <canvas id="camera-overlay"></canvas>
+      </div>
+      <div id="camera-status" class="status-connecting">Initializing Camera...</div>
+      
+      <!-- Game Settings Speed Control -->
+      <div class="settings-control">
+        <label for="speed-slider" class="settings-label">🎈 Speed Control</label>
+        <div class="slider-wrapper">
+          <span class="slider-emoji">🐢</span>
+          <input type="range" id="speed-slider" min="0.5" max="2.5" step="0.1" value="1.2">
+          <span class="slider-emoji">🚀</span>
+        </div>
+        <div class="speed-value-display">Multiplier: <span id="speed-multiplier-val">1.2x</span></div>
+      </div>
+    </div>
+
+    <!-- Main Game Area -->
+    <div id="game-container">
+      <!-- HUD Dashboard -->
+      <div id="hud" class="glass-panel">
+        <div class="hud-item">
+          <span class="hud-label">Score</span>
+          <span id="score-val" class="hud-value">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Level</span>
+          <span id="level-val" class="hud-value font-bounce">1</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Time Left</span>
+          <div class="timer-bar-container">
+            <div id="timer-bar"></div>
+          </div>
+          <span id="timer-val" class="hud-value">60s</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Hearts</span>
+          <span id="hearts-val" class="hud-value">❤️️❤️️❤️️</span>
+        </div>
+        <div class="hud-item">
+          <button id="btn-hud-hub" class="btn btn-secondary btn-hud" title="Return to Game Selection">🏠 Hub</button>
+        </div>
+      </div>
+
+      <!-- Main Game Rendering Canvas -->
+      <canvas id="game-canvas"></canvas>
+
+      <!-- Kids Motion Playground Landing Hub -->
+      <div id="screen-welcome" class="screen-overlay active">
+        <div class="card glass-panel text-center pulse-glow playground-hub-card">
+          <h1 class="game-title">🎈 Motion Playground 🎈</h1>
+          <p class="game-subtitle">Step back from the camera and choose a fun motion game to play!</p>
+          
+          <!-- Unified Camera Calibration & Trophy Shelf Bar -->
+          <div class="hub-top-bars">
+            <div id="hub-calibration-status" class="status-connecting">🎥 Initializing Camera tracking...</div>
+            <div id="hub-trophy-banner" class="hub-trophy-pill">🏆 Trophies: <span id="hub-trophy-count">0</span> / 12 Unlocked</div>
+          </div>
+          
+          <div class="carousel-wrapper">
+            <!-- Card 1: Puppy Balloon Bounce -->
+            <div class="game-card" id="card-puppy">
+              <div class="game-card-badge" data-trophy-for="puppy"></div>
+              <span class="game-card-icon">🐶</span>
+              <h3>Puppy Bounce</h3>
+              <p class="game-card-desc">Move side-to-side, wave your paws, and kick your legs to bounce falling balloons back up!</p>
+              <div class="game-card-meta">🚶 Body lean, 👐 Arms & 🦵 Legs</div>
+              <button class="btn btn-primary btn-play-game" data-game="puppy" id="btn-start" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 2: Magic Fruit Slasher -->
+            <div class="game-card" id="card-fruits">
+              <div class="game-card-badge" data-trophy-for="fruits"></div>
+              <span class="game-card-icon">🍉</span>
+              <h3>Fruit Slasher</h3>
+              <p class="game-card-desc">Wave your arms to slice flying sweet fruits! Watch out for bombs!</p>
+              <div class="game-card-meta">👐 Dual-arm waving</div>
+              <button class="btn btn-primary btn-play-game" data-game="fruits" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 3: Pat-the-Pets -->
+            <div class="game-card" id="card-pets">
+              <div class="game-card-badge" data-trophy-for="pets"></div>
+              <span class="game-card-icon">🐹</span>
+              <h3>Pat-the-Pets</h3>
+              <p class="game-card-desc">Reach high and low to pat hamsters popping out of the grass!</p>
+              <div class="game-card-meta">👐 High/low reaches</div>
+              <button class="btn btn-primary btn-play-game" data-game="pets" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 4: Cosmic Shield -->
+            <div class="game-card" id="card-cosmic">
+              <div class="game-card-badge" data-trophy-for="cosmic"></div>
+              <span class="game-card-icon">🚀</span>
+              <h3>Cosmic Defender</h3>
+              <p class="game-card-desc">Tilt your body left/right to spin a glowing shield and block meteors!</p>
+              <div class="game-card-meta">🚶 Shoulder tilt & lean</div>
+              <button class="btn btn-primary btn-play-game" data-game="cosmic" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 5: Neon Air Hockey -->
+            <div class="game-card" id="card-hockey">
+              <div class="game-card-badge" data-trophy-for="hockey"></div>
+              <span class="game-card-icon">🏒</span>
+              <h3>Neon Air Hockey</h3>
+              <p class="game-card-desc">Smack the glowing puck into the goal! Play 1P vs Cyber-Bot or 1v1 against a friend!</p>
+              <div class="game-card-meta">👐 Hand Paddles • 🤖 1P / ⚔️ 2P</div>
+              <button class="btn btn-primary btn-play-game" data-game="hockey" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 6: Sky Wings Flyer -->
+            <div class="game-card" id="card-airplane">
+              <div class="game-card-badge" data-trophy-for="airplane"></div>
+              <span class="game-card-icon">✈️</span>
+              <h3>Sky Wings Flyer</h3>
+              <p class="game-card-desc">Spread your hands like wings and tilt left/right to bank through golden sky rings & dodge storms!</p>
+              <div class="game-card-meta">✈️ Arm-Wing Tilt • 🌈 Turbo Rings</div>
+              <button class="btn btn-primary btn-play-game" data-game="airplane" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 7: Shaun's Mossy Bottom Dash -->
+            <div class="game-card" id="card-shaun">
+              <div class="game-card-badge" data-trophy-for="shaun"></div>
+              <img
+                src="https://www.shaunthesheep.com/media/zsdh2s1e/shaun-blitzer-2x.png"
+                alt="Shaun & Bitzer"
+                class="game-card-char-img"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+              >
+              <span class="game-card-icon" style="display:none;">🐑</span>
+              <h3>Shaun's Farm Dash</h3>
+              <p class="game-card-desc">Dash as Shaun (& Bitzer in 2P)! Jump hay bales, squat under clotheslines, bounce on Shirley & grab pizzas!</p>
+              <div class="game-card-meta">🦘 Jump & ⬇️ Squat • 🐑 Shaun & Bitzer</div>
+              <button class="btn btn-primary btn-play-game" data-game="shaun" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 8: AR Shaun's Flock Smash -->
+            <div class="game-card" id="card-smash">
+              <div class="game-card-badge" data-trophy-for="smash"></div>
+              <img
+                src="https://www.shaunthesheep.com/media/b03bwo4j/shaun2.jpg?rmode=crop&width=240&height=240"
+                alt="Shaun Flock Smash"
+                class="game-card-char-img"
+                style="border-radius: 50%; border: 2px solid #4ade80;"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+              >
+              <span class="game-card-icon" style="display:none;">🐑</span>
+              <h3>Shaun's Flock Smash</h3>
+              <p class="game-card-desc">Live AR! Bop Shaun, Bitzer, Timmy, Shirley & Hard-Hat Pigs popping from all 4 barn sides—don't bop the Farmer!</p>
+              <div class="game-card-meta">🎥 Live AR • 🐑 4-Edge Flock Bop</div>
+              <button class="btn btn-primary btn-play-game" data-game="smash" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 9: Super Goalie Rush (Nex GoKeeper Inspired!) -->
+            <div class="game-card featured-card" id="card-gokeeper">
+              <div class="game-card-badge" data-trophy-for="gokeeper">✨ NEW</div>
+              <span class="game-card-icon">🧤</span>
+              <h3>Super Goalie Rush</h3>
+              <p class="game-card-desc">Block curveballs, catch blazing fireballs with 2 hands, unlock Magnet Gloves & snap Victory Selfies!</p>
+              <div class="game-card-meta">🧤 Goalie Saves • 📸 Selfie Trophy</div>
+              <button class="btn btn-primary btn-play-game" data-game="gokeeper" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 10: Starri Beat Stage (Nex Starri Inspired!) -->
+            <div class="game-card featured-card" id="card-starri">
+              <div class="game-card-badge" data-trophy-for="starri">✨ NEW</div>
+              <span class="game-card-icon">🌟</span>
+              <h3>Starri Beat Stage</h3>
+              <p class="game-card-desc">Catch rhythm gems, slash lightning diamonds & hit twin gold chords to sprout Cyber-Star Wings!</p>
+              <div class="game-card-meta">🎵 Beat Catch & Slash • 👑 SS Rank</div>
+              <button class="btn btn-primary btn-play-game" data-game="starri" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 11: Copycat Mirror Party (Elmo Says / Mirrorama Inspired!) -->
+            <div class="game-card featured-card" id="card-poseparty">
+              <div class="game-card-badge" data-trophy-for="poseparty">✨ NEW</div>
+              <span class="game-card-icon">🐿️</span>
+              <h3>Copycat Mirror Party</h3>
+              <p class="game-card-desc">Match DJ Acorn's poses, duck laser beams, hold Red-Light Freeze & unlock wearable AR costumes!</p>
+              <div class="game-card-meta">🕺 Full-Body Poses • 👑 AR Costumes</div>
+              <button class="btn btn-primary btn-play-game" data-game="poseparty" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 12: Super Power Tennis (Mario Power Tennis Inspired!) -->
+            <div class="game-card featured-card" id="card-tennis">
+              <div class="game-card-badge" data-trophy-for="tennis">✨ NEW</div>
+              <span class="game-card-icon">🎾</span>
+              <h3>Super Power Tennis</h3>
+              <p class="game-card-desc">Hold 1:1 Power Rackets in your hands! Hit glowing Target Rings, clasp 2 hands for Super Grip & blast Fireballs!</p>
+              <div class="game-card-meta">🎾 1:1 Hand Rackets • 🔥 Fireball Smash</div>
+              <button class="btn btn-primary btn-play-game" data-game="tennis" disabled>Waiting...</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calibration & Setup Screen -->
+      <div id="screen-calibration" class="screen-overlay hidden">
+        <div class="card glass-panel text-center">
+          <h2>🤖 Tracking Calibration</h2>
+          <p>Please stand in the center of the camera view until we detect your body.</p>
+          <div class="loading-spinner"></div>
+          <p id="calibration-feedback" class="pulse-text">Searching for player...</p>
+        </div>
+      </div>
+
+      <!-- 3-Second Setup Countdown Screen -->
+      <div id="screen-countdown" class="screen-overlay hidden">
+        <div class="card glass-panel text-center countdown-card">
+          <h2 class="countdown-title">Get Ready! Stand Back! 🐶</h2>
+          <div id="countdown-number" class="countdown-num">3</div>
+          <p class="countdown-tip">Prepare to move and swat balloons!</p>
+        </div>
+      </div>
+
+      <!-- Level Up Screen -->
+      <div id="screen-levelup" class="screen-overlay hidden">
+        <div class="card glass-panel text-center pop-in">
+          <h2 class="congrats-title">🎉 LEVEL COMPLETED!</h2>
+          <p id="levelup-sub-banner">Super Job! Check out your rewards!</p>
+          <div class="next-level-badge">Level <span id="next-level-num">2</span></div>
+          <div id="levelup-reward-showcase" class="reward-showcase hidden"></div>
+          <p class="level-desc" id="level-desc-text">Get ready, wind is picking up and balloons fall faster!</p>
+          <div class="modal-actions">
+            <button id="btn-next-level" class="btn btn-primary">Start Level <span id="btn-next-level-num">2</span></button>
+            <button id="btn-levelup-hub" class="btn btn-secondary">🏠 Switch Game</button>
+          </div>
+          <p class="hands-up-tip">🙌 Raise both hands high to start next level! 🙌</p>
+        </div>
+      </div>
+
+      <!-- Game Over Screen -->
+      <div id="screen-gameover" class="screen-overlay hidden">
+        <div class="card glass-panel text-center pop-in">
+          <h2 class="gameover-title">💔 GAME OVER</h2>
+          <p id="gameover-desc-text">Better luck next time!</p>
+          <div id="gameover-reward-showcase" class="reward-showcase hidden"></div>
+          <div class="stats-summary">
+            <div>Final Score: <span id="final-score" class="highlight-val">0</span></div>
+            <div>Levels Cleared: <span id="final-level" class="highlight-val">0</span></div>
+          </div>
+          <div class="modal-actions">
+            <button id="btn-restart" class="btn btn-primary">Play Again 🎮</button>
+            <button id="btn-gameover-hub" class="btn btn-secondary">🏠 Back to Hub</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js?v=13"></script>
+</body>
+</html>
