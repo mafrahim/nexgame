@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="styles.css?v=15">
 </head>
 <body>
   <div id="app-container">
@@ -25,10 +25,10 @@
         <label for="speed-slider" class="settings-label">🎈 Speed Control</label>
         <div class="slider-wrapper">
           <span class="slider-emoji">🐢</span>
-          <input type="range" id="speed-slider" min="0.5" max="2.5" step="0.1" value="1.2">
+          <input type="range" id="speed-slider" min="0.5" max="3.0" step="0.1" value="1.4">
           <span class="slider-emoji">🚀</span>
         </div>
-        <div class="speed-value-display">Multiplier: <span id="speed-multiplier-val">1.2x</span></div>
+        <div class="speed-value-display">Multiplier: <span id="speed-multiplier-val">1.4x</span></div>
       </div>
     </div>
 
@@ -72,7 +72,7 @@
           <!-- Unified Camera Calibration & Trophy Shelf Bar -->
           <div class="hub-top-bars">
             <div id="hub-calibration-status" class="status-connecting">🎥 Initializing Camera tracking...</div>
-            <div id="hub-trophy-banner" class="hub-trophy-pill">🏆 Trophies: <span id="hub-trophy-count">0</span> / 12 Unlocked</div>
+            <div id="hub-trophy-banner" class="hub-trophy-pill">🏆 Trophies: <span id="hub-trophy-count">0</span> / 15 Unlocked</div>
           </div>
           
           <div class="carousel-wrapper">
@@ -208,6 +208,36 @@
               <div class="game-card-meta">🎾 1:1 Hand Rackets • 🔥 Fireball Smash</div>
               <button class="btn btn-primary btn-play-game" data-game="tennis" disabled>Waiting...</button>
             </div>
+
+            <!-- Card 13: Dragon Balloon Archery -->
+            <div class="game-card featured-card" id="card-archery">
+              <div class="game-card-badge" data-trophy-for="archery">✨ NEW</div>
+              <span class="game-card-icon">🏹</span>
+              <h3>Dragon Balloon Archery</h3>
+              <p class="game-card-desc">Point your Bow Hand to aim & spread both hands to draw! Pop dragon balloons, nail Bullseyes & fire 3x Multishots!</p>
+              <div class="game-card-meta">🏹 2-Hand Bow Draw • 🎆 Firework Arrows</div>
+              <button class="btn btn-primary btn-play-game" data-game="archery" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 14: Fever Hoops Pop-A-Shot -->
+            <div class="game-card featured-card" id="card-hoops">
+              <div class="game-card-badge" data-trophy-for="hoops">✨ NEW</div>
+              <span class="game-card-icon">🏀</span>
+              <h3>Fever Hoops</h3>
+              <p class="game-card-desc">Scoop basketballs & Rainbow 2x Money Balls from the wire rack, flick upward to swish & ignite 🔥 ON-FIRE mode!</p>
+              <div class="game-card-meta">🏀 Scoop & Shoot • 🔥 2x Fire Streak</div>
+              <button class="btn btn-primary btn-play-game" data-game="hoops" disabled>Waiting...</button>
+            </div>
+
+            <!-- Card 15: AR Magic Bubble Lab -->
+            <div class="game-card featured-card" id="card-bubbles">
+              <div class="game-card-badge" data-trophy-for="bubbles">✨ NEW</div>
+              <span class="game-card-icon">🫧</span>
+              <h3>AR Magic Bubble Lab</h3>
+              <p class="game-card-desc">Live AR! Touch hands & pull apart to stretch giant rainbow soap bubbles, trap Star-Sprites & clap to chain-pop!</p>
+              <div class="game-card-meta">🎥 Live AR • 🫧 Stretch & Clap Bubbles</div>
+              <button class="btn btn-primary btn-play-game" data-game="bubbles" disabled>Waiting...</button>
+            </div>
           </div>
         </div>
       </div>
@@ -266,6 +296,6 @@
     </div>
   </div>
 
-  <script type="module" src="app.js?v=13"></script>
+  <script type="module" src="app.js?v=15"></script>
 </body>
 </html>
